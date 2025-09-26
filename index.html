@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabiduría Animal • Tienda (Preview)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+  :root{--bg:#0b1020;--card:#121a33;--muted:#93a4c9;--text:#e6ecff;--primary:#4f8cff;--accent:#f59e0b;--ok:#10b981}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 600px at 20% -10%, #1b2450 0%, transparent 55%),radial-gradient(1000px 500px at 120% -20%, #0d1636 0%, transparent 60%),var(--bg);color:var(--text)}
+  .header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;position:sticky;top:0;background:rgba(11,16,32,.7);backdrop-filter: blur(6px);z-index:10;border-bottom:1px solid #1e2b5e}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo-wrap{width:72px;height:72px;border-radius:50%;padding:3px;background:conic-gradient(#ff8a00, #ff2d55, #8a2be2, #4f8cff, #00e5ff, #ff8a00);box-shadow:0 0 0 4px rgba(255,255,255,0.06),0 10px 26px rgba(79,140,255,.38);display:flex;align-items:center;justify-content:center;transition:transform .25s ease}
+.logo-wrap:hover{transform:rotate(2deg) scale(1.03)}
+.logo{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#0b1020;filter:saturate(1.6) contrast(1.15)}
+  .brand-text h1{margin:0;font-size:34px;letter-spacing:.5px;background:linear-gradient(90deg,#ff5e00,#ffae00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 10px rgba(255,138,0,.35))}
+  .actions{display:flex;gap:8px}
+  .btn{display:inline-block;padding:10px 14px;border-radius:12px;text-decoration:none;background:#1a2a5a;color:#dbe6ff;border:1px solid #29408b;font-weight:600}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  .btn.primary{background:var(--primary);border-color:#5fa1ff;color:white}
+  .btn.youtube{background:#ff0033;border-color:#ff5577}
+  .btn.add{background:#10b981;border-color:#34d399}
+  .btn.amazon{background:linear-gradient(90deg,#ff5e00,#ffae00);border:none;color:#111;font-weight:800}
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50}
+  .modal.show{display:flex}
+  .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+  .modal-card{position:relative;background:#0e1430;border:1px solid #243371;border-radius:16px;padding:18px;max-width:720px;width:92%}
+  .form .row{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+  .form .two{flex-direction:row;gap:12px}
+  .form input,.form select{padding:12px 14px;border-radius:12px;border:1px solid #2a3c7a;background:#0b122b;color:#e6ecff;width:100%}
+  .actions-inline{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+  .ck{display:flex;align-items:center;gap:8px;margin-top:28px}
+  .hint{color:#93a4c9;font-size:12px;margin-top:8px}
+  .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:36px 24px;align-items:center}
+  .hero-copy h2{font-size:36px;margin:0 0 8px;background:linear-gradient(90deg,#ff5e00,#ffae00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 10px rgba(255,150,0,.35))}
+  .hero-copy p{color:#c3d0ff;margin:0 0 16px}
+  .search{display:flex;gap:8px;flex-wrap:wrap}
+  .search input,.search select{flex:1 1 240px;padding:12px 14px;border-radius:12px;border:1px solid #2a3c7a;background:#0e1530;color:#dbe6ff}
+  .qr{margin-top:12px;width:132px;height:132px;border-radius:12px;border:1px solid #2a3c7a;padding:6px;background:#0e1530}
+  .hero-animals{position:relative;display:flex;align-items:center;justify-content:center;gap:12px}
+  .hero-animals img{border-radius:22px;width:48%;aspect-ratio:4/5;object-fit:cover;border:2px solid #2d3b76;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .hero-animals .dog{transform:rotate(-2deg)}
+  .hero-animals .cat{transform:rotate(2deg)}
+  .container{padding:10px 24px 48px}
+  .section{margin-top:28px}
+  .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px}
+  @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:1040px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .card{background:linear-gradient(180deg,#151e3f,#0e1430);border:1px solid #243371;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+  .card .thumb{position:relative;overflow:hidden;aspect-ratio:4/3;background:#0b122b}
+  .card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+  .card:hover img{transform:scale(1.05)}
+  .badge{position:absolute;top:10px;left:10px;background:var(--accent);color:#111;padding:4px 8px;border-radius:999px;font-weight:800;font-size:12px;border:2px solid rgba(0,0,0,.25)}
+  .content{padding:12px}
+  .title{font-weight:800;margin:0 0 4px;font-size:16px}
+  .meta{display:flex;align-items:center;justify-content:space-between;color:#c3d0ff;font-size:13px}
+  .price{font-weight:800;color:#a8d4ff}
+  .cat{opacity:.9}
+  .actions-row{display:flex;padding:10px 12px 14px;gap:8px}
+  .actions-row .btn{flex:1;text-align:center}
+  .tools{display:flex;gap:6px; padding:8px 12px 0}
+/* --- Modo público: oculta edición/alto riesgo por defecto --- */
+
+/* --- Modo admin: visibles --- */
+
+
+  .btn.sm{padding:6px 10px; border-radius:10px; font-size:12px}
+  .btn.danger{background:#ef4444;border-color:#f87171;color:#fff}
+  .btn.neutral{background:#374151;border-color:#4b5563;color:#e5e7eb}
+  .footer{padding:32px 24px;color:#a3b4e9;border-top:1px solid #1e2b5e;background:rgba(11,16,32,.5)}
+  .footer a{color:#d6e3ff}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo-wrap"><img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?q=80&w=512&auto=format&fit=crop" alt="Perrito" class="logo"/></div>
+      <div class="brand-text">
+        <h1>Sabiduría Animal</h1>
+      </div>
+    </div>
+    <nav class="actions">
+      <a class="btn youtube" target="_blank" rel="noopener" href="http://www.youtube.com/@SABIDURIAANIMAL86">Ir a YouTube</a>
+      <a class="btn primary" href="#top10">Top 10</a>
+      <button class="btn add" id="openAdd">➕ Agregar producto</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h2>Todo para tus animales favoritos</h2>
+      <form id="searchForm" class="search">
+        <input id="searchInput" type="search" placeholder="Buscar productos o categorías..." aria-label="Buscar"/>
+        <select id="categorySelect">
+          <option value="">Todas las categorías</option>
+          <option>Perros</option>
+          <option>Gatos</option>
+          <option>Aves</option>
+          <option>Peces</option>
+          <option>Accesorios</option>
+          <option>Ropa</option>
+          <option>Higiene</option>
+          <option>Juguetes</option>
+        </select>
+        <button class="btn primary" type="submit">Buscar</button>
+      </form>
+    </div>
+    <div class="hero-animals">
+      <img class="dog" alt="Perro grande" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=800&auto=format&fit=crop"/>
+      <img class="cat" alt="Gatito pequeño" src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=800&auto=format&fit=crop"/>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="top10" class="section">
+      <h3>Top 10 más buscados</h3>
+      <div id="topList" class="grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h3>Todos los productos</h3>
+        <div class="sort">
+          <label for="sort">Ordenar:</label>
+          <select id="sort">
+            <option value="relevance">Relevancia</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name-asc">Nombre A–Z</option>
+            <option value="name-desc">Nombre Z–A</option>
+          </select>
+        </div>
+      </div>
+      <div id="productList" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Sabiduría Animal. Hecho con 💛.</p>
+    <div style='margin-top:16px;text-align:center'>
+      <small class='tip'>Escanea el QR para ir directo al canal:</small><br/>
+      <img class="qr" alt="QR YouTube" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http%3A%2F%2Fwww.youtube.com%2F%40SABIDURIAANIMAL86"/>
+    </div>
+    <div style='margin-top:24px;text-align:center;font-weight:600;font-size:14px;color:#fbbf24'>Amazon Afiliados</div>
+  </footer>
+
+  <script>
+// --- Config ---
+const affTag = "SABIDURIAANIMAL-20"; // pon tu tag real de Amazon Afiliados
+
+// --- Generador compacto de 20 productos (Perros y Gatos) ---
+function genProducts(){
+  const dogImgs=[
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=800&auto=format&fit=crop"
+  ];
+  const catImgs=[
+    "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1526312426976-593c2b99968b?q=80&w=800&auto=format&fit=crop"
+  ];
+  const dogs=[
+    "Cama ortopédica premium","Arnés acolchado antitirones","Collar LED nocturno","Juguete mordedor resistente","Correa extensible 5m","Comedero antiestrés lento","Champú hipoalergénico","Transportín plegable","Cinturón de seguridad para auto","Cámara WiFi para mascotas"
+  ];
+  const cats=[
+    "Rascador torre XL","Fuente de agua silenciosa","Caja de arena cubierta","Juguete pluma interactivo","Cama cueva térmica","Cepillo deshedding","Mochila ventana","Comedero doble antideslizante","Túnel plegable para juego","Snacks liofilizados premium"
+  ];
+  const list=[]; let id=101;
+  dogs.forEach((nm,i)=>{
+    list.push({
+      id:id++, name:`${nm} (Perros)`, category:"Perros",
+      price: +(6+Math.random()*80).toFixed(2),
+      image: dogImgs[i%dogImgs.length],
+      link: `https://www.amazon.com/s?k=${encodeURIComponent(nm.replace(/\s+/g,'+'))}&tag=${affTag}`,
+      badge: i%3===0?"Top":null, top: i<4
+    });
+  });
+  cats.forEach((nm,i)=>{
+    list.push({
+      id:id++, name:`${nm} (Gatos)`, category:"Gatos",
+      price: +(6+Math.random()*80).toFixed(2),
+      image: catImgs[i%catImgs.length],
+      link: `https://www.amazon.com/s?k=${encodeURIComponent('cat '+nm.replace(/\s+/g,'+'))}&tag=${affTag}`,
+      badge: i%4===0?"🔥 Oferta":null, top: i<4
+    });
+  });
+  return list;
+}
+
+// --- Estado & elementos ---
+const state={ all:[], filtered:[] };
+const els={
+  topList:document.getElementById('topList'),
+  productList:document.getElementById('productList'),
+  searchForm:document.getElementById('searchForm'),
+  searchInput:document.getElementById('searchInput'),
+  categorySelect:document.getElementById('categorySelect'),
+  sort:document.getElementById('sort'),
+  year:document.getElementById('year'),
+  openAdd:document.getElementById('openAdd')
+};
+els.year.textContent=new Date().getFullYear();
+
+// --- Init (usa localStorage si existe) ---
+(function init(){
+  const saved=localStorage.getItem('sabiduria_products');
+  state.all = saved? JSON.parse(saved) : genProducts();
+  state.filtered=[...state.all];
+  renderTop10();
+  renderList();
+})();
+
+// --- Render ---
+function renderTop10(){ const top=state.all.filter(p=>p.top).slice(0,10); els.topList.innerHTML=top.map(cardHTML).join(''); }
+function renderList(){ const arr=sortProducts([...state.filtered], els.sort.value); els.productList.innerHTML=arr.map(cardHTML).join(''); }
+function cardHTML(p){
+  return `
+  <article class="card" data-id="${p.id}">
+    <div class="thumb">${p.badge?`<span class="badge">${p.badge}</span>`:''}<img src="${p.image}" alt="${p.name}"/></div>
+    <div class="content">
+      <h4 class="title">${p.name}</h4>
+      <div class="meta"><span class="price">$${p.price.toFixed(2)}</span><span class="cat">${p.category}</span></div>
+    </div>
+    <div class="tools">
+      <button class="btn sm neutral" data-edit="${p.id}">Editar</button>
+      <button class="btn sm danger" data-del="${p.id}">Eliminar</button>
+    </div>
+    <div class="actions-row"><a class="btn amazon" target="_blank" rel="noopener" href="${p.link}">Ver en Amazon</a></div>
+  </article>`;
+}
+
+// --- Búsqueda y orden ---
+els.searchForm.addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const q=(els.searchInput.value||'').toLowerCase();
+  const cat=els.categorySelect.value;
+  state.filtered=state.all.filter(p=>{
+    const text=(p.name+' '+p.category).toLowerCase();
+    const okText=q? text.includes(q): true;
+    const okCat=cat? p.category===cat: true;
+    return okText && okCat;
+  });
+  renderList();
+});
+els.sort.addEventListener('change',()=>renderList());
+function sortProducts(arr,how){
+  switch(how){
+    case 'price-asc': return arr.sort((a,b)=>a.price-b.price);
+    case 'price-desc': return arr.sort((a,b)=>b.price-a.price);
+    case 'name-asc': return arr.sort((a,b)=>a.name.localeCompare(b.name));
+    case 'name-desc': return arr.sort((a,b)=>b.name.localeCompare(a.name));
+    default: return arr;
+  }
+}
+
+// --- Editar / Eliminar ---
+els.productList.addEventListener('click',(e)=>{
+  const eb=e.target.closest('[data-edit]');
+  const db=e.target.closest('[data-del]');
+  if(eb){ const id=+eb.dataset.edit; openEditPrompt(id); }
+  if(db){ const id=+db.dataset.del; removeProduct(id); }
+});
+function openEditPrompt(id){
+  const p=state.all.find(x=>x.id===id); if(!p) return;
+  const name=prompt('Nombre', p.name); if(name===null) return;
+  const priceStr=prompt('Precio', p.price); if(priceStr===null) return;
+  const category=prompt('Categoría (Perros/Gatos)', p.category)||p.category;
+  const image=prompt('URL de imagen', p.image)||p.image;
+  const link=prompt('Link Amazon/Afiliado', p.link)||p.link;
+  const top=confirm('¿Marcar como Top 10?');
+  const idx=state.all.findIndex(x=>x.id===id);
+  state.all[idx]={...p,name,price:parseFloat(priceStr)||p.price,category,image,link,top};
+  persist(); renderTop10(); renderList();
+}
+function removeProduct(id){
+  if(!confirm('¿Eliminar este producto?')) return;
+  state.all = state.all.filter(x=>x.id!==id);
+  state.filtered=[...state.all];
+  persist(); renderTop10(); renderList();
+}
+
+// --- Agregar (prompts livianos) ---
+els.openAdd.addEventListener('click',()=>{
+  const name=prompt('Nombre del producto'); if(!name) return;
+  const price=parseFloat(prompt('Precio (USD)')||'0')||0;
+  const category=(prompt('Categoría (Perros/Gatos)')||'Perros').trim();
+  const image=prompt('URL de imagen (https://...)')||'';
+  const link=prompt('Link Amazon/Afiliado (https://...)')||'';
+  const top=confirm('¿Marcar como Top 10?');
+  const item={id:Date.now(),name,price,category,image,link,top,badge:null};
+  state.all.unshift(item); state.filtered=[...state.all];
+  persist(); renderTop10(); renderList();
+});
+
+function persist(){ try{ localStorage.setItem('sabiduria_products', JSON.stringify(state.all)); }catch(_){} }
+</script>
+</body>
+</html>
